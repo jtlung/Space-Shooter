@@ -80,7 +80,6 @@ grow_vertical = 2
 autostart = true
 
 [node name="Menu" type="Control" parent="UI"]
-process_mode = 3
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -145,7 +144,8 @@ offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_o6pux")
-text = "Quit Game"
+text = "Restart Game
+"
 
 [connection signal="timeout" from="UI/HUD/Timer" to="UI/HUD" method="_on_timer_timeout"]
 [connection signal="pressed" from="UI/Menu/Restart" to="UI/Menu" method="_on_restart_pressed"]
