@@ -1,40 +1,44 @@
 extends CharacterBody2D
 
-var speed = 5
-var rotate_speed = .08
+var speed = 15
+var deceleration = 4
+var rotate_speed = .1
 var maxspeed = 400
-var nose = Vector2(0,-60)
+var nose = Vector2(60,0)
 var health = 10
 var Bullet = load("res://Player/bullet.tscn")
 var Effects = null
 var Explosion = load("res://Effects/Explosion.tscn")
+var lastmousePos = Vector2(0,0)
+
 
 func get_input():
-	var to_return = Vector2.ZERO
+	var mousePos = get_global_mouse_position()
+	if mousePos.distance_to(lastmousePos) > 0 or mousePos.distance_to(position) > 25:
+		look_at(mousePos)
+	lastmousePos = mousePos
 	$Exhaust.hide()
 	if Input.is_action_pressed("Forward"):
-		to_return += Vector2(0,-1)
 		$Exhaust.show()
-	if Input.is_action_pressed("Left"):
-		rotation -= rotate_speed
-	if Input.is_action_pressed("Right"):
-		rotation += rotate_speed
-	return to_return.rotated(rotation)
-		
-func _physics_process(_delta):
-	velocity += get_input()*speed
-	velocity = velocity.normalized()*clamp(velocity.length(),0,maxspeed)
-	position.x = wrapf(position.x,0,Global.VP.x)
-	position.y = wrapf(position.y,0,Global.VP.y)
-	#print(velocity.length())
-	move_and_slide()
+		velocity += transform.x *speed
+	if not Input.is_action_pressed("Forward"):
+		velocity = velocity.normalized()*(velocity.length()-deceleration)
 	if Input.is_action_just_pressed("Shoot"):
 		var bullet = Bullet.instantiate()
-		bullet.position = position +nose.rotated(rotation)
-		bullet.rotation = rotation
+		bullet.position = position + nose.rotated(rotation)
+		bullet.rotation = rotation+deg_to_rad(90)
 		var Effects = get_node_or_null("/root/Game/Effects")
 		if Effects != null:
 			Effects.add_child(bullet)
+	velocity = velocity.normalized() * clamp(velocity.length(),0,maxspeed)
+
+
+func _physics_process(delta):
+	Global.update_boost(.1)
+	get_input()
+	move_and_slide()
+	position.x = wrapf(position.x,0-50,Global.VP.x+50)
+	position.y = wrapf(position.y,0-50,Global.VP.y+50)
 
 func damage(d):
 	health -= d 

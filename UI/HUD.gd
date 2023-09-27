@@ -8,12 +8,16 @@ func _ready():
 	update_score()
 	update_time()
 	update_lives()
+	update_boost()
 
 func update_score():
 	$Score.text = "Score: "+ str(Global.score)
 
 func update_time():
 	$Time.text = "Time: "+ str(Global.time)
+	
+func update_boost():
+	$Boost.value = Global.boost
 	
 func update_lives():
 	lives_pos = Vector2(20,Global.VP.y-20)

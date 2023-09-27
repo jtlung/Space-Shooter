@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://die1ydhyglsig"]
+[gd_scene load_steps=11 format=3 uid="uid://die1ydhyglsig"]
 
 [ext_resource type="PackedScene" uid="uid://d3kre313jl7ue" path="res://Player/player.tscn" id="1_wrj3d"]
 [ext_resource type="Script" path="res://Player/Player_Container.gd" id="2_0tosa"]
@@ -8,6 +8,27 @@
 [ext_resource type="Script" path="res://UI/HUD.gd" id="5_w4ywb"]
 [ext_resource type="Script" path="res://UI/Menu.gd" id="7_rddxt"]
 [ext_resource type="FontFile" uid="uid://dlgi0wgulmwb5" path="res://Assets/hyperspace/Hyperspace.otf" id="8_lasvb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwwx4"]
+bg_color = Color(0.117647, 0.207843, 0.560784, 0.541176)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0745098, 0.0980392, 0.270588, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7gm4d"]
+bg_color = Color(0.52549, 1, 0.996078, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 1
 
 [node name="Game" type="Node2D"]
 
@@ -19,8 +40,6 @@ position = Vector2(100, 100)
 [node name="Asteroid2" parent="Asteroid_Container" instance=ExtResource("2_xqvt7")]
 position = Vector2(900, 600)
 
-[node name="Effects" type="Node2D" parent="."]
-
 [node name="Player_Container" type="Node2D" parent="."]
 script = ExtResource("2_0tosa")
 
@@ -31,6 +50,8 @@ position = Vector2(526, 324)
 
 [node name="Enemy" parent="Enemy_Container" instance=ExtResource("3_jcygv")]
 position = Vector2(400, 200)
+
+[node name="Effects" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -78,6 +99,21 @@ grow_vertical = 2
 
 [node name="Timer" type="Timer" parent="UI/HUD"]
 autostart = true
+
+[node name="Boost" type="ProgressBar" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -69.0
+offset_right = 220.0
+offset_bottom = -50.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_bwwx4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7gm4d")
+step = 0.1
+rounded = true
+show_percentage = false
 
 [node name="Menu" type="Control" parent="UI"]
 process_mode = 3
