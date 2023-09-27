@@ -6,8 +6,22 @@ var lives = 0
 var time = 0
 var boost = 0
 var Asteroid = load("res://Asteroid/asteroid.tscn")
-var maxAsteroid = 6
+var maxAsteroid = 3
 
+func spawnAsteroid(spawnPos=null, size = "medium"):
+	var Asteroid_Container = get_node_or_null("/root/Game/Asteroid_Container")
+	var newAsteroid = Asteroid.instantiate()
+	Asteroid_Container.add_child(newAsteroid)
+	var RNG = randi_range(0,1)
+	var offset = -50+100*RNG
+	newAsteroid.updateSize(size)
+	if spawnPos:
+		newAsteroid.position = spawnPos
+	else:
+		if randi_range(0,1):
+			newAsteroid.position = Vector2(VP.x*RNG+offset,randi_range(0,VP.y))
+		else:
+			newAsteroid.position = Vector2(randi_range(0,VP.x),VP.y*RNG+offset)
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -33,13 +47,11 @@ func _process(_delta):
 	if Asteroid_Container != null and Enemy_Container != null:
 		var AsteroidNum = Asteroid_Container.get_child_count()
 		var EnemyNum = Enemy_Container.get_child_count()
-		if AsteroidNum < maxAsteroid:
-			var newAsteroid = Asteroid.instantiate()
-			Asteroid_Container.add_child(newAsteroid)
-			if randi_range(0,1):
-				newAsteroid.position = Vector2(VP.x*randi_range(0,1),randi_range(0,VP.y))
-			else:
-				newAsteroid.position = Vector2(randi_range(0,VP.x),VP.y*randi_range(0,1))
+		if AsteroidNum < maxAsteroid + clamp(floor(Global.time/30),0,8):
+			var size = "medium"
+			if randi_range(1,3) == 3:
+				size = "large"
+			spawnAsteroid(null,size)
 		#if Asteroid_Container.get_child_count() == 0 and Enemy_Container.get_child_count() == 0:
 			#get_tree().change_scene_to_file("res://UI/end_game.tscn")
 
@@ -76,5 +88,5 @@ func reset():
 	get_tree().paused = false
 	boost = 0
 	score = 0
-	time = 30
+	time = 0
 	lives = 5

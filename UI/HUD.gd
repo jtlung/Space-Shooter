@@ -29,7 +29,7 @@ func update_lives():
 		$Indicator_Container.add_child(indicator)
 
 func _on_timer_timeout():
-	Global.update_time(-1)
+	Global.update_time(1)
 	update_time()
-	if Global.time <= 0:
-		get_tree().change_scene_to_file("res://UI/end_game.tscn")
+	#if Global.time <= 0:
+		#get_tree().change_scene_to_file("res://UI/end_game.tscn")

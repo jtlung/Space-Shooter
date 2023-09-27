@@ -5,23 +5,23 @@ var health = 10
 #var y_positions = [100,150,200,500,550]
 var initial_position = Vector2.ZERO
 var direction = Vector2.ZERO
-var wobble = 30.0
+var wobble = 40.0
 
 func _ready():
 	if randi_range(0,1):
-		initial_position.x = -100
+		initial_position.x = -50
 		initial_position.y = randi_range(0,Global.VP.y)
-		direction = Vector2(1.5,0)
+		direction = Vector2(3.5,0)
 	else:
-		initial_position.x = Global.VP.x+100
+		initial_position.x = Global.VP.x+50
 		initial_position.y = randi_range(0,get_viewport().size.y)
-		direction = Vector2(-1.5,0)
+		direction = Vector2(-3.5,0)
 	position = initial_position
 	
 func _physics_process(_delta):
 	position += direction
-	position.y = initial_position.y + sin(position.x/20)*wobble
-	if position.x > Global.VP.x+100:
+	position.y = initial_position.y + sin(position.x/80)*wobble
+	if position.x > Global.VP.x+100 or position.x < -100:
 		queue_free()
 
 func _on_timer_timeout():
@@ -37,8 +37,10 @@ func _on_timer_timeout():
 func damage(d):
 	health -= d
 	if health <= 0:
-		Global.update_score(500)
-		Global.update_boost(25)
+		var boostUp = 5
+		var scoreUp = 100
+		Global.update_score(scoreUp)
+		Global.update_boost(boostUp)
 		queue_free()
 
 func _on_area_2d_body_entered(body):

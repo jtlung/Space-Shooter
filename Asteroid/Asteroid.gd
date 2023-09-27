@@ -2,6 +2,22 @@ extends CharacterBody2D
 
 var initial_speed = 350.0
 var health = 5
+var size = "medium"
+var boostUp = 1
+var scoreUp = 25
+
+func updateSize(newSize):
+	size = newSize
+	if size == "large":
+		scale = Vector2(2,2)
+		health = 10
+		boostUp *= 2
+		scoreUp *= 2
+	elif size == "small":
+		scale = Vector2(.5,.5)
+		health = 1
+		boostUp *= 2
+		scoreUp *= 2
 
 func appear():
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_LINEAR)
@@ -12,6 +28,13 @@ func appear():
 	#tween.tween_callback(func():
 		#$CollisionPolygon2D.disabled = false
 		#)
+
+func split():
+	var newSize = "small"
+	if size == "large":
+		newSize = "medium"
+	for i in 2:
+		Global.spawnAsteroid(position,newSize)
 
 func _ready():
 	appear()
@@ -26,6 +49,8 @@ func _physics_process(_delta):
 func damage(d):
 	health -= d
 	if health <= 0:
-		Global.update_score(100)
-		Global.update_boost(10)
+		Global.update_score(scoreUp)
+		Global.update_boost(boostUp)
+		if size != "small":
+			split()
 		queue_free()
