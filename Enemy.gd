@@ -2,14 +2,20 @@ extends CharacterBody2D
 
 var Bullet = load("res://Enemy/enemy_bullet.tscn")
 var health = 10
-var y_positions = [100,150,200,500,550]
+#var y_positions = [100,150,200,500,550]
 var initial_position = Vector2.ZERO
-var direction = Vector2(1.5,0)
+var direction = Vector2.ZERO
 var wobble = 30.0
 
 func _ready():
-	initial_position.x = -100
-	initial_position.y = y_positions[randi()%y_positions.size()]
+	if randi_range(0,1):
+		initial_position.x = -100
+		initial_position.y = randi_range(0,Global.VP.y)
+		direction = Vector2(1.5,0)
+	else:
+		initial_position.x = Global.VP.x+100
+		initial_position.y = randi_range(0,get_viewport().size.y)
+		direction = Vector2(-1.5,0)
 	position = initial_position
 	
 func _physics_process(_delta):

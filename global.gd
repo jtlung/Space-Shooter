@@ -6,6 +6,8 @@ var lives = 0
 var time = 0
 var boost = 0
 var Asteroid = load("res://Asteroid/asteroid.tscn")
+var maxAsteroid = 6
+
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -31,7 +33,7 @@ func _process(_delta):
 	if Asteroid_Container != null and Enemy_Container != null:
 		var AsteroidNum = Asteroid_Container.get_child_count()
 		var EnemyNum = Enemy_Container.get_child_count()
-		if AsteroidNum < 8:
+		if AsteroidNum < maxAsteroid:
 			var newAsteroid = Asteroid.instantiate()
 			Asteroid_Container.add_child(newAsteroid)
 			if randi_range(0,1):

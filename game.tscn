@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://die1ydhyglsig"]
+[gd_scene load_steps=10 format=3 uid="uid://die1ydhyglsig"]
 
+[ext_resource type="Script" path="res://game.gd" id="1_anrcv"]
 [ext_resource type="PackedScene" uid="uid://d3kre313jl7ue" path="res://Player/player.tscn" id="1_wrj3d"]
 [ext_resource type="Script" path="res://Player/Player_Container.gd" id="2_0tosa"]
-[ext_resource type="PackedScene" uid="uid://s16cn882og8c" path="res://Asteroid/asteroid.tscn" id="2_xqvt7"]
-[ext_resource type="PackedScene" uid="uid://pxekkledw8t4" path="res://Enemy/enemy.tscn" id="3_jcygv"]
 [ext_resource type="FontFile" uid="uid://b4ha6ql8y4dwe" path="res://Assets/hyperspace/Hyperspace Bold.otf" id="5_o6pux"]
 [ext_resource type="Script" path="res://UI/HUD.gd" id="5_w4ywb"]
 [ext_resource type="Script" path="res://UI/Menu.gd" id="7_rddxt"]
@@ -31,14 +30,9 @@ corner_radius_bottom_left = 8
 shadow_size = 1
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_anrcv")
 
 [node name="Asteroid_Container" type="Node2D" parent="."]
-
-[node name="Asteroid" parent="Asteroid_Container" instance=ExtResource("2_xqvt7")]
-position = Vector2(100, 100)
-
-[node name="Asteroid2" parent="Asteroid_Container" instance=ExtResource("2_xqvt7")]
-position = Vector2(900, 600)
 
 [node name="Player_Container" type="Node2D" parent="."]
 script = ExtResource("2_0tosa")
@@ -47,9 +41,6 @@ script = ExtResource("2_0tosa")
 position = Vector2(526, 324)
 
 [node name="Enemy_Container" type="Node2D" parent="."]
-
-[node name="Enemy" parent="Enemy_Container" instance=ExtResource("3_jcygv")]
-position = Vector2(400, 200)
 
 [node name="Effects" type="Node2D" parent="."]
 
@@ -183,6 +174,11 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_o6pux")
 text = "Quit Game"
 
+[node name="enemyTimer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
 [connection signal="timeout" from="UI/HUD/Timer" to="UI/HUD" method="_on_timer_timeout"]
 [connection signal="pressed" from="UI/Menu/Restart" to="UI/Menu" method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/Menu/Quit" to="UI/Menu" method="_on_quit_pressed"]
+[connection signal="timeout" from="enemyTimer" to="." method="_on_enemy_timer_timeout"]
