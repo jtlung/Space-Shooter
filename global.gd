@@ -88,7 +88,7 @@ func update_boost(x):
 
 func reset():
 	get_tree().paused = false
-	boost = 0
+	boost = 50
 	score = 0
 	time = 0
 	lives = 5
