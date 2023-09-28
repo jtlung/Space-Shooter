@@ -10,7 +10,7 @@ var Explosion = load("res://Effects/Explosion.tscn")
 
 func _ready():
 	if randi_range(0,1):
-		initial_position.x = Global.map.x-50
+		initial_position.x = -Global.map.x-50
 		initial_position.y = randi_range(0,Global.map.y)
 		direction = Vector2(3.5,0)
 	else:
