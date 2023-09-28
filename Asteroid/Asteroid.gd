@@ -5,6 +5,7 @@ var health = 5
 var size = "medium"
 var boostUp = 1
 var scoreUp = 25
+var Explosion = load("res://Effects/Explosion.tscn")
 
 func updateSize(newSize):
 	size = newSize
@@ -14,7 +15,7 @@ func updateSize(newSize):
 		boostUp *= 2
 		scoreUp *= 2
 	elif size == "small":
-		scale = Vector2(.5,.5)
+		scale = Vector2(.65,.65)
 		health = 1
 		boostUp *= 2
 		scoreUp *= 2
@@ -33,6 +34,7 @@ func split():
 	var newSize = "small"
 	if size == "large":
 		newSize = "medium"
+	var pxSize = $Sprite2D.texture.get_size()
 	for i in 2:
 		Global.spawnAsteroid(position,newSize)
 
@@ -51,6 +53,11 @@ func damage(d):
 	if health <= 0:
 		Global.update_score(scoreUp)
 		Global.update_boost(boostUp)
+		var Effects = get_node_or_null("/root/Game/Effects")
+		if Effects != null:
+			var explosion = Explosion.instantiate()
+			Effects.add_child(explosion)
+			explosion.global_position = global_position
 		if size != "small":
 			split()
 		queue_free()

@@ -6,6 +6,7 @@ var health = 10
 var initial_position = Vector2.ZERO
 var direction = Vector2.ZERO
 var wobble = 40.0
+var Explosion = load("res://Effects/Explosion.tscn")
 
 func _ready():
 	if randi_range(0,1):
@@ -39,6 +40,11 @@ func damage(d):
 	if health <= 0:
 		var boostUp = 5
 		var scoreUp = 100
+		var Effects = get_node_or_null("/root/Game/Effects")
+		if Effects != null:
+			var explosion = Explosion.instantiate()
+			Effects.add_child(explosion)
+			explosion.global_position = global_position
 		Global.update_score(scoreUp)
 		Global.update_boost(boostUp)
 		queue_free()

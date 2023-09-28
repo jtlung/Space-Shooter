@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbl35f67biqwj"]
+
+[ext_resource type="Script" path="res://blasted.gd" id="1_ifffs"]
+[ext_resource type="Texture2D" uid="uid://cequrtqfafen0" path="res://Assets/whitelaser.png" id="2_l75nn"]
+
+[sub_resource type="Curve" id="Curve_lvhal"]
+_data = [Vector2(0, 1), 0.0, -0.158851, 0, 0, Vector2(1, 0), -3.64036, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ycxf4"]
+curve = SubResource("Curve_lvhal")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yj31p"]
+lifetime_randomness = 0.25
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 33.63
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 600.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 1000.0
+damping_max = 1000.0
+scale_min = 0.35
+scale_max = 0.35
+scale_curve = SubResource("CurveTexture_ycxf4")
+
+[node name="blasted" type="Node2D"]
+script = ExtResource("1_ifffs")
+
+[node name="Emit" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_yj31p")
+texture = ExtResource("2_l75nn")
+lifetime = 0.35
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0

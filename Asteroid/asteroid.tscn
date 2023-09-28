@@ -7,7 +7,9 @@
 script = ExtResource("1_1jfup")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.8, 0.8, 0.8, 1)
 texture = ExtResource("2_c5p1c")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(0, -24, -16, -16, -24, 0, -16, 17, 0, 25, 17, 16, 24, 0, 16, -16)
+one_way_collision = true

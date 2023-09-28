@@ -4,7 +4,7 @@ var speed = 20
 var deceleration = 4
 var rotate_speed = .1
 var maxspeed = 400
-var nose = Vector2(60,0)
+var nose = Vector2(45,0)
 var health = 10
 var dead = false
 var Bullet = load("res://Player/bullet.tscn")
@@ -12,6 +12,7 @@ var Effects = null
 var Explosion = load("res://Effects/Explosion.tscn")
 var lastmousePos = Vector2(0,0)
 var bursting = false
+
 
 func shootBullet():
 	var bullet = Bullet.instantiate()
@@ -36,9 +37,9 @@ func get_input():
 	if mousePos.distance_to(lastmousePos) > 0 or mousePos.distance_to(position) > 25:
 		look_at(mousePos)
 	lastmousePos = mousePos
-	$Exhaust.hide()
+	$flame.emitting = false
 	if Input.is_action_pressed("Forward") or bursting:
-		$Exhaust.show()
+		$flame.emitting = true
 		velocity += transform.x *speed
 	if not Input.is_action_pressed("Forward"):
 		velocity = velocity.normalized()*(velocity.length()-deceleration)

@@ -1,18 +1,24 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvpvqduy6a2d1"]
 
 [ext_resource type="Script" path="res://Enemy/Enemy Bullet.gd" id="1_37wwf"]
-[ext_resource type="Texture2D" uid="uid://cpg8lujy77ho5" path="res://Assets/Bullet.png" id="2_fly2y"]
+[ext_resource type="Texture2D" uid="uid://cequrtqfafen0" path="res://Assets/whitelaser.png" id="2_7fd1w"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xinmu"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ehovw"]
+radius = 2.66667
+height = 25.3333
 
 [node name="Enemy Bullet" type="Area2D"]
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_37wwf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_fly2y")
+modulate = Color(10, 0, 0, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_7fd1w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_xinmu")
+visible = false
+shape = SubResource("CapsuleShape2D_ehovw")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -20,4 +26,3 @@ one_shot = true
 autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

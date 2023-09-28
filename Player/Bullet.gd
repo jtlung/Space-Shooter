@@ -5,7 +5,7 @@ var speed = 15.0
 var damage = 5
 var velocity = Vector2.ZERO
 var Effects = null
-var Explosion = load("res://Effects/Explosion.tscn")
+var Blasted = load("res://Effects/blasted.tscn")
 
 func _ready():
 	velocity = Vector2(0,-speed).rotated(rotation)
@@ -17,13 +17,14 @@ func _process(_delta):
 
 
 func _on_body_entered(body):
-	if body.has_method("damage") and body.name != "Player":
+	if body.has_method("damage"):
 		body.damage(damage)
 	Effects = get_node_or_null("/root/Game/Effects")
 	if Effects != null:
-		var explosion = Explosion.instantiate()
-		Effects.add_child(explosion)
-		explosion.global_position = global_position
+		var blasted = Blasted.instantiate()
+		Effects.add_child(blasted)
+		blasted.rotation = rotation
+		blasted.global_position = global_position
 	queue_free()
 
 

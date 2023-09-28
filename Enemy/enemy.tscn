@@ -10,6 +10,7 @@ radius = 32.0
 script = ExtResource("1_yq71u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.8, 0.8, 0.8, 1)
 texture = ExtResource("2_u3ksa")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
