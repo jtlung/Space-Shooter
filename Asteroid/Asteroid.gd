@@ -26,9 +26,9 @@ func appear():
 	tween.tween_property($Sprite2D, "modulate:a", 1, .5)
 	#$Sprite2D.scale = Vector2(0,0)
 	#tween.tween_property($Sprite2D, "scale", Vector2(1,1), .5)
-	#tween.tween_callback(func():
-		#$CollisionPolygon2D.disabled = false
-		#)
+	tween.tween_callback(func():
+		$CollisionPolygon2D.disabled = false
+		)
 
 func split():
 	var newSize = "small"
@@ -45,8 +45,8 @@ func _ready():
 func _physics_process(_delta):
 	velocity = velocity.normalized()*clamp(velocity.length(),0,initial_speed)
 	move_and_slide()
-	position.x = wrapf(position.x,0-50,Global.VP.x+50)
-	position.y = wrapf(position.y,0-50,Global.VP.y+50)
+	position.x = wrapf(position.x,-Global.map.x-50,Global.map.x+50)
+	position.y = wrapf(position.y,-Global.map.y-50,Global.map.y+50)
 
 func damage(d):
 	health -= d

@@ -1,7 +1,7 @@
 extends Area2D
 
 
-var speed = 10.0
+var speed = 7.5
 var damage = 2
 var velocity = Vector2.ZERO
 var Effects = null

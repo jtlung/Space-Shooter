@@ -10,19 +10,19 @@ var Explosion = load("res://Effects/Explosion.tscn")
 
 func _ready():
 	if randi_range(0,1):
-		initial_position.x = -50
-		initial_position.y = randi_range(0,Global.VP.y)
+		initial_position.x = Global.map.x-50
+		initial_position.y = randi_range(0,Global.map.y)
 		direction = Vector2(3.5,0)
 	else:
-		initial_position.x = Global.VP.x+50
-		initial_position.y = randi_range(0,get_viewport().size.y)
+		initial_position.x = Global.map.x+50
+		initial_position.y = randi_range(0,Global.map.y)
 		direction = Vector2(-3.5,0)
 	position = initial_position
 	
 func _physics_process(_delta):
 	position += direction
 	position.y = initial_position.y + sin(position.x/80)*wobble
-	if position.x > Global.VP.x+100 or position.x < -100:
+	if position.x > Global.map.x+100 or position.x < -Global.map.x-100:
 		queue_free()
 
 func _on_timer_timeout():

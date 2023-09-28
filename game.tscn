@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://die1ydhyglsig"]
+[gd_scene load_steps=14 format=3 uid="uid://die1ydhyglsig"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_anrcv"]
 [ext_resource type="PackedScene" uid="uid://d3kre313jl7ue" path="res://Player/player.tscn" id="1_wrj3d"]
@@ -6,7 +6,10 @@
 [ext_resource type="FontFile" uid="uid://b4ha6ql8y4dwe" path="res://Assets/hyperspace/Hyperspace Bold.otf" id="5_o6pux"]
 [ext_resource type="Script" path="res://UI/HUD.gd" id="5_w4ywb"]
 [ext_resource type="Script" path="res://UI/Menu.gd" id="7_rddxt"]
+[ext_resource type="Texture2D" uid="uid://djlyhcs83xvbh" path="res://Assets/layer1.png" id="8_6mw5l"]
 [ext_resource type="FontFile" uid="uid://dlgi0wgulmwb5" path="res://Assets/hyperspace/Hyperspace.otf" id="8_lasvb"]
+[ext_resource type="Texture2D" uid="uid://divb3c3bsg15l" path="res://Assets/layer2.png" id="9_v0adt"]
+[ext_resource type="Texture2D" uid="uid://cr7umuf3apgil" path="res://Assets/layer3.png" id="9_v77u8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwwx4"]
 bg_color = Color(0.117647, 0.207843, 0.560784, 0.541176)
@@ -189,11 +192,42 @@ theme_override_fonts/font = ExtResource("5_o6pux")
 text = "Quit Game"
 
 [node name="enemyTimer" type="Timer" parent="."]
-wait_time = 6.0
+wait_time = 2.0
 autostart = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5hx51")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1000, 1000)
+
+[node name="Sprite" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
+texture = ExtResource("8_6mw5l")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1000, 1000)
+
+[node name="Sprite" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+texture_filter = 1
+texture = ExtResource("9_v0adt")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(1000, 1000)
+
+[node name="Sprite" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+texture_filter = 1
+texture = ExtResource("9_v77u8")
+centered = false
 
 [connection signal="timeout" from="UI/HUD/Timer" to="UI/HUD" method="_on_timer_timeout"]
 [connection signal="pressed" from="UI/Menu/Restart" to="UI/Menu" method="_on_restart_pressed"]

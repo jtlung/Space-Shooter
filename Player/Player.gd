@@ -12,7 +12,13 @@ var Effects = null
 var Explosion = load("res://Effects/Explosion.tscn")
 var lastmousePos = Vector2(0,0)
 var bursting = false
+var canBurst = true
 
+func _ready():
+	$Camera2D.limit_bottom = Global.map.y
+	$Camera2D.limit_right = Global.map.x
+	$Camera2D.limit_left = -Global.map.y
+	$Camera2D.limit_top = -Global.map.x
 
 func shootBullet():
 	var bullet = Bullet.instantiate()
@@ -22,15 +28,20 @@ func shootBullet():
 	if Effects != null:
 		Effects.add_child(bullet)
 
-func burst():
-	bursting = true
-	speed = 1200
-	maxspeed = 1200
-	await get_tree().create_timer(1.0).timeout
-	bursting = false
-	speed = 15
-	maxspeed = 400
-	pass
+func burst(check: bool):
+	if check and Global.boost > 1 and canBurst:
+		Global.update_boost(-1)
+		bursting = true
+		speed = 400
+		maxspeed = 1600
+	else:
+		bursting = false
+		speed = 15
+		maxspeed = 400
+		if Global.boost < 10:
+			canBurst = false
+			await get_tree().create_timer(3).timeout
+			canBurst = true
 
 func get_input():
 	var mousePos = get_global_mouse_position()
@@ -38,15 +49,21 @@ func get_input():
 		look_at(mousePos)
 	lastmousePos = mousePos
 	$flame.emitting = false
+	$burst.emitting = false
+	if Input.is_action_pressed("Burst"):
+		burst(true)
+	else:
+		burst(false)
 	if Input.is_action_pressed("Forward") or bursting:
-		$flame.emitting = true
+		if bursting:
+			$burst.emitting = true
+		else:
+			$flame.emitting = true
 		velocity += transform.x *speed
 	if not Input.is_action_pressed("Forward"):
 		velocity = velocity.normalized()*(velocity.length()-deceleration)
 	if Input.is_action_just_pressed("Shoot"):
 		shootBullet()
-	if Input.is_action_just_pressed("Burst"):
-		burst()
 	velocity = velocity.normalized() * clamp(velocity.length(),0,maxspeed)
 
 
@@ -54,8 +71,8 @@ func _physics_process(delta):
 	Global.update_boost(.1)
 	get_input()
 	move_and_slide()
-	position.x = wrapf(position.x,0-50,Global.VP.x+50)
-	position.y = wrapf(position.y,0-50,Global.VP.y+50)
+	position.x = wrapf(position.x,-Global.map.x-50,Global.map.x+50)
+	position.y = wrapf(position.y,-Global.map.y-50,Global.map.y+50)
 
 func damage(d):
 	health -= d 

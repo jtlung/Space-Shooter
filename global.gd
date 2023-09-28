@@ -6,7 +6,8 @@ var lives = 0
 var time = 0
 var boost = 0
 var Asteroid = load("res://Asteroid/asteroid.tscn")
-var maxAsteroid = 3
+var maxAsteroid = 5
+var map = Vector2(1500,1500)
 
 func spawnAsteroid(spawnPos=null, size = "medium"):
 	var Asteroid_Container = get_node_or_null("/root/Game/Asteroid_Container")
@@ -47,7 +48,7 @@ func _process(_delta):
 	if Asteroid_Container != null and Enemy_Container != null:
 		var AsteroidNum = Asteroid_Container.get_child_count()
 		var EnemyNum = Enemy_Container.get_child_count()
-		if AsteroidNum < maxAsteroid + clamp(floor(Global.time/30),0,8):
+		if AsteroidNum < maxAsteroid + clamp(floor(Global.time/15),0,12):
 			var size = "medium"
 			if randi_range(1,3) == 3:
 				size = "large"
@@ -80,6 +81,7 @@ func _resize():
 
 func update_boost(x):
 	boost+= x
+	boost = clamp(boost,0,100)
 	var hud = get_node_or_null("/root/Game/UI/HUD")
 	if hud != null:
 		hud.update_boost()
